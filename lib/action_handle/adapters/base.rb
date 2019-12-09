@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module ActionHandle
   module Adapters
     class Base
+      extend Forwardable
+
+      def_delegators Configuration, :logger, :silence_errors
+
       def taken?(_key)
         raise NotImplementedError
       end
@@ -30,17 +36,13 @@ module ActionHandle
       end
 
       def safely_perform
-        if logger.respond_to?(:call)
-          begin
-            yield
-          rescue StandardError => e
-            logger.call(e)
+        yield
+      rescue StandardError => e
+        logger.call(e) if logger.respond_to?(:call)
 
-            false
-          end
-        else
-          yield
-        end
+        raise unless silence_errors == true
+
+        false
       end
     end
   end

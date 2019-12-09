@@ -6,7 +6,7 @@ module ActionHandle
   class Base
     extend Forwardable
 
-    def_delegator :Configuration, :adapter
+    def_delegator Configuration, :adapter
 
     def taken?
       adapter.taken?(key)
