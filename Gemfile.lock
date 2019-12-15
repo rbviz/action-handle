@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action-handle (0.0.3)
+    action-handle (0.0.4)
       connection_pool
       redis
 
@@ -36,4 +36,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   2.1.0.pre.3
+   2.1.0

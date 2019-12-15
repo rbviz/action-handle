@@ -18,7 +18,7 @@ module ActionHandle
 
       def taken?(key)
         perform_with_expectation(true) do
-          @pool.with { |client| client.exist(key) }
+          @pool.with { |client| client.exists(key) }
         end
       end
 
