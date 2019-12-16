@@ -9,16 +9,16 @@ module ActionHandle
     def_delegator Configuration, :adapter
 
     class << self
-      def create(*args, **kargs, &block)
-        new(*args, **kargs, &block).create
+      def create(*args, &block)
+        new(*args, &block).create
       end
 
-      def expire(*args, **kargs, &block)
-        new(*args, **kargs, &block).expire
+      def expire(*args, &block)
+        new(*args, &block).expire
       end
 
-      def renew(*args, **kargs, &block)
-        new(*args, **kargs, &block).renew
+      def renew(*args, &block)
+        new(*args, &block).renew
       end
     end
 

@@ -9,6 +9,14 @@ module ActionHandle
 
       def_delegators Configuration, :logger, :silence_errors
 
+      def create(_key, _value, _ttl)
+        raise NotImplementedError
+      end
+
+      def renew(_key, _value, _ttl)
+        raise NotImplementedError
+      end
+
       def taken?(_key)
         raise NotImplementedError
       end

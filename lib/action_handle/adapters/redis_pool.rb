@@ -17,7 +17,7 @@ module ActionHandle
       end
 
       def create(key, value, ttl)
-        perform_with_expectation('OK') do
+        perform_with_expectation(true) do
           @pool.with do |client|
             client.set(key, value, ex: ttl, nx: true)
           end

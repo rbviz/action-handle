@@ -5,7 +5,7 @@ module ActionHandle
     class RailsCache < Base
       def create(key, value, ttl)
         perform_with_expectation(true) do
-          client.write(key, value, expires_in: ttl) unless client.exist?(key)
+          client.write(key, value, expires_in: ttl) unless taken?(key)
         end
       end
 

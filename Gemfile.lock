@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action-handle (0.0.4)
+    action-handle (0.0.5pre6)
       connection_pool
       redis
 
