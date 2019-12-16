@@ -3,6 +3,18 @@
 module ActionHandle
   module Adapters
     class RailsCache < Base
+      def create(key, value, ttl)
+        perform_with_expectation(true) do
+          client.write(key, value, expires_in: ttl) unless client.exist?(key)
+        end
+      end
+
+      def renew(key, value, ttl)
+        perform_with_expectation(true) do
+          client.write(key, value, expires_in: ttl) if current?(key, value)
+        end
+      end
+
       def taken?(key)
         perform_with_expectation(true) do
           client.exist?(key)

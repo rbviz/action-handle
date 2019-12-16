@@ -16,6 +16,22 @@ module ActionHandle
         @pool = pool || CurrentRedisWapper.new
       end
 
+      def create(key, value, ttl)
+        perform_with_expectation('OK') do
+          @pool.with do |client|
+            client.set(key, value, ex: ttl, nx: true)
+          end
+        end
+      end
+
+      def renew(key, value, ttl)
+        perform_with_expectation(true) do
+          @pool.with do |client|
+            client.expire(key, ttl) if current?(key, value)
+          end
+        end
+      end
+
       def taken?(key)
         perform_with_expectation(true) do
           @pool.with { |client| client.exists(key) }
