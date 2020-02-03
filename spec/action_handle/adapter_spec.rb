@@ -13,7 +13,76 @@ describe 'Built-in Adapters' do
         expect(instance.create('key', 'value1', 100)).to eq(true)
         expect(instance.create('key', 'value2', 100)).to eq(false)
 
-        expect(instance.info('key')).to eq('value1')
+        expect(instance.value('key')).to eq('value1')
+      end
+    end
+
+    describe '#expire' do
+      context 'when key exists' do
+        before { instance.create('key', 'value1', 100) }
+
+        it { expect(instance.expire('key')).to eq(true) }
+      end
+
+      context 'when key does not exist' do
+        it { expect(instance.expire('no_such_key')).to eq(false) }
+      end
+    end
+
+    describe '#current?' do
+      before { instance.create('key', 'value1', 100) }
+
+      context 'when key/value matches' do
+        it { expect(instance.current?('key', 'value1')).to eq(true) }
+      end
+
+      context 'when value does not match' do
+        it { expect(instance.current?('key', 'different value')).to eq(false) }
+      end
+
+      context 'when key does not match' do
+        it { expect(instance.current?('no_such_key', 'value1')).to eq(false) }
+      end
+    end
+
+    describe '#renew' do
+      before { instance.create('key', 'value1', 100) }
+
+      context 'when key/value matches' do
+        it { expect(instance.renew('key', 'value1', 200)).to eq(true) }
+      end
+
+      context 'when value does not match' do
+        it { expect(instance.renew('key', 'value?', 100)).to eq(false) }
+      end
+
+      context 'when key does not match' do
+        it { expect(instance.renew('no_such_key', 'value1', 100)).to eq(false) }
+      end
+    end
+
+    describe '#claim' do
+      before { instance.create('key', 'value1', 100) }
+
+      context 'when key/value matches' do
+        it 'replaces handle' do
+          expect(instance.claim('key', 'value1', 100)).to eq(true)
+          expect(instance.value('key')).to eq('value1')
+        end
+      end
+
+      context 'when value does not match' do
+        it 'replaces handle' do
+          expect(instance.claim('key', 'value?', 100)).to eq(true)
+          expect(instance.value('key')).to eq('value?')
+        end
+      end
+
+      context 'when key does not exist' do
+        it 'creates handle' do
+          expect(instance.claim('no_such_key', 'value1', 100)).to eq(true)
+          expect(instance.value('no_such_key')).to eq('value1')
+        end
       end
     end
 
@@ -29,15 +98,15 @@ describe 'Built-in Adapters' do
       end
     end
 
-    describe '#info' do
+    describe '#value' do
       before { instance.create('key', 'value1', 100) }
 
       it 'returns nil on missing key' do
-        expect(instance.info('no_such_key')).to be_nil
+        expect(instance.value('no_such_key')).to be_nil
       end
 
-      it 'returns handle info on existing key' do
-        expect(instance.info('key')).to eq('value1')
+      it 'returns handle value on existing key' do
+        expect(instance.value('key')).to eq('value1')
       end
     end
   end

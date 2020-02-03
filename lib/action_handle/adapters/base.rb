@@ -25,7 +25,7 @@ module ActionHandle
         raise NotImplementedError
       end
 
-      def info(_key)
+      def value(_key)
         raise NotImplementedError
       end
 

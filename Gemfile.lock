@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    action-handle (0.0.5pre7)
+    action-handle (0.1.0)
       connection_pool
       memoist
       redis

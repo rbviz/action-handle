@@ -44,7 +44,7 @@ module ActionHandle
         end
       end
 
-      def info(key)
+      def value(key)
         safely_perform do
           @pool.with { |client| client.get(key) }
         end

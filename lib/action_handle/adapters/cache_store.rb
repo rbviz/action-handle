@@ -16,7 +16,7 @@ module ActionHandle
       end
 
       def renew(key, value, ttl)
-        perform_with_expectation(true) do
+        perform_with_expectation('OK') do
           client.write(key, value, expires_in: ttl) if current?(key, value)
         end
       end
@@ -33,19 +33,19 @@ module ActionHandle
         end
       end
 
-      def info(key)
+      def value(key)
         safely_perform { client.read(key) }
       end
 
       def claim(key, value, ttl)
-        perform_with_expectation(true) do
+        perform_with_expectation('OK') do
           client.write(key, value, expires_in: ttl)
         end
       end
 
       def expire(key)
         perform_with_expectation(true) do
-          client.delete(key)
+          client.delete(key).to_i > 0
         end
       end
     end
