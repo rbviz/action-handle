@@ -2,13 +2,15 @@
 
 module ActionHandle
   module Adapters
-    class RailsCache < Base
+    class CacheStore < Base
+      attr_reader :client
+
       def initialize(cache = nil)
         @client = cache
       end
 
       def create(key, value, ttl)
-        perform_with_expectation(true) do
+        perform_with_expectation('OK') do
           client.write(key, value, expires_in: ttl) unless taken?(key)
         end
       end
@@ -45,12 +47,6 @@ module ActionHandle
         perform_with_expectation(true) do
           client.delete(key)
         end
-      end
-
-      private
-
-      def client
-        @client ||= ::Rails.cache
       end
     end
   end

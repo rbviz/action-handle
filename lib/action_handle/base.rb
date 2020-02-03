@@ -6,7 +6,10 @@ module ActionHandle
   class Base
     extend Forwardable
 
-    def_delegator Configuration, :adapter
+    BUILTIN_ADAPTERS = {
+      redis: Adapters::RedisPool,
+      cache: Adapters::CacheStore
+    }.freeze
 
     class << self
       def create(*args, &block)
@@ -60,6 +63,18 @@ module ActionHandle
 
     def key
       raise NotImplementedError, 'must define `key`'
+    end
+
+    def adapter
+      @adapter ||=
+        case Configuration.adapter
+        when Symbol, String
+          klass = BUILTIN_ADAPTERS[Configuration.adapter.to_sym]
+
+          klass.new(*Configuration.pool) if klass
+        else
+          Configuration.adapter
+        end
     end
   end
 end
