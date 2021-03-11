@@ -89,7 +89,7 @@ module ActionHandle
         when Symbol, String
           klass = BUILTIN_ADAPTERS[Configuration.adapter.to_sym]
 
-          klass.new(*Configuration.redis_pool) if klass
+          klass&.new(*Configuration.redis_pool)
         else
           Configuration.adapter
         end

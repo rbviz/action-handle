@@ -3,19 +3,22 @@ describe ActionHandle::Configuration do
     shared_examples :attribute_flow do |key, set_value, get_value|
       subject do
         ActionHandle.configure do |config|
-          config.public_send("#{key}=", set_value)
+          config.public_send(key, set_value)
         end
       end
 
       it "returns #{get_value}" do
         expect { subject }.not_to raise_error
 
-        is_expected.to eq(described_class)
-        is_expected.to have_attributes(key => get_value)
+        is_expected.to eq(get_value)
+
+        expect(described_class).to have_attributes(key => get_value)
       end
     end
 
     describe '.silence_errors' do
+      before { described_class.silence_errors = nil }
+
       context 'when set as `false`' do
         include_examples :attribute_flow, :silence_errors, false, false
       end
@@ -30,6 +33,8 @@ describe ActionHandle::Configuration do
     end
 
     describe '.adapter' do
+      before { described_class.adapter = nil }
+
       context 'when set as `:rails_cache`' do
         include_examples :attribute_flow, :adapter, :rails_cache, :rails_cache
       end

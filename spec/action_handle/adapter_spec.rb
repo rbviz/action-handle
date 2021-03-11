@@ -1,5 +1,5 @@
 describe 'Built-in Adapters' do
-  shared_examples :conforms_to_adapter_interface do
+  shared_context :conforms_to_adapter_interface do
     let(:klass) { described_class }
     let(:adapter_args) { nil }
     let(:instance) { klass.new(*adapter_args) }
@@ -112,11 +112,11 @@ describe 'Built-in Adapters' do
   end
 
   describe ActionHandle::Adapters::RedisPool do
-    include_examples :conforms_to_adapter_interface
+    include_context :conforms_to_adapter_interface
   end
 
   describe ActionHandle::Adapters::CacheStore do
-    include_examples :conforms_to_adapter_interface
+    include_context :conforms_to_adapter_interface
 
     let(:adapter_args) { ActiveSupport::Cache::RedisCacheStore.new }
   end

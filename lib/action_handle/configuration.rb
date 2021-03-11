@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-require 'memoist'
-
 module ActionHandle
   module Configuration
-    extend Memoist
-
     class << self
       attr_accessor :adapter, :logger, :silence_errors
     end
 
     module_function
 
-    memoize def adapter
+    def adapter(obj = nil)
+      @adapter = obj if obj
+
       @adapter ||= :redis
     end
 
-    memoize def redis_pool
+    def redis_pool
       @redis_pool
     end
 
-    memoize def silence_errors
-      @silence_errors || false
+    def silence_errors(value = nil)
+      @silence_errors = value if value
+
+      @silence_errors ||= false
     end
   end
 end

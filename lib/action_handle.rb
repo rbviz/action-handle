@@ -10,7 +10,7 @@ require 'action_handle/adapters/redis_pool'
 require 'action_handle/base'
 
 module ActionHandle
-  def self.configure
-    Configuration.tap { |it| yield(it) }
+  def self.configure(&block)
+    Configuration.instance_eval(&block)
   end
 end
