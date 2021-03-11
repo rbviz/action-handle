@@ -8,12 +8,20 @@ module ActionHandle
 
     module_function
 
-    def adapter
-      @adapter ||= Adapters::RedisPool.new
+    def adapter(obj = nil)
+      @adapter = obj if obj
+
+      @adapter ||= :redis
     end
 
-    def silence_errors
-      @silence_errors ||= :no
+    def redis_pool
+      @redis_pool
+    end
+
+    def silence_errors(value = nil)
+      @silence_errors = value if value
+
+      @silence_errors ||= false
     end
   end
 end
