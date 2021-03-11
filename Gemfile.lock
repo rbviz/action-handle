@@ -22,7 +22,7 @@ GEM
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
     minitest (5.14.4)
-    rake (10.5.0)
+    rake (13.0.3)
     redis (4.2.5)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
@@ -49,7 +49,7 @@ DEPENDENCIES
   activesupport (~> 6.0)
   bundler (~> 2.0)
   fakeredis (~> 0.8)
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.9)
 
 BUNDLED WITH
