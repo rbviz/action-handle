@@ -87,7 +87,7 @@ RoomHandle.create(101, 'Jack')
 Jack fails to book the room and stays angry on Tom for taking too long and contacts managament. Meaniwhile Tom is done with his things and leaves the room.
 
 ```ruby
-RoomHandle.create(101, 'Tom').expire
+RoomHandle.expire(101, 'Tom')
 #=> true
 ```
 
