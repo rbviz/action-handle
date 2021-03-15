@@ -59,7 +59,7 @@ RoomHandle.create(101, 'Tom', 15.minutes)
 #=> true
 ```
 
-Tom booked this room with a ttl of an hour. Another user tries to do the same
+Tom booked this room with a ttl of 15 mins. Another user tries to book the same room
 
 ```ruby
 handle = RoomHandle.new(101, 'Jack')
@@ -84,7 +84,7 @@ RoomHandle.create(101, 'Jack')
 #=> false
 ```
 
-Jack fails to book the room and stays angry on Tom for taking too long and contacts managament. Meaniwhile Tom is done with his things and leaves the room.
+Jack fails to book the room and stays angry on Tom for taking too long and contacts managament. Meanwhile Tom is done with his things and leaves the room.
 
 ```ruby
 RoomHandle.expire(101, 'Tom')
